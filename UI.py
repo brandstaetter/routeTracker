@@ -442,18 +442,18 @@ class UserInterface:
             for i in range(self.position, len(self.route_data.waypoints)):
                 req_fuel += int(self.route_data.waypoints[i][WP_FUEL_USED])
             req_fuel -= int(self.route_data.waypoints[self.position][WP_FUEL_USED])
-        fuel_total = self.draw_progress_bar(req_fuel, x, y)
+        fuel_total = self.draw_fuel_bar(req_fuel, x, y)
         self.draw_fuel_messages(fuel_total, req_fuel, x, y)
 
-    def draw_progress_bar(self, req_fuel, x, y):
+    def draw_fuel_bar(self, req_fuel, x, y):
         if not self.route_data.initialized():
             return
-        tank_fuel = self.route_data.carrierFuel
+        carrier_fuel = self.route_data.carrierFuel
         ship_fuel = self.route_data.shipInventory - self.data['shipCargo']
         carrier_cargo = self.route_data.carrierInventory - self.data['carrierCargo']
         self.canvas.create_text(x + 20, y + 180, text="Tritium | ", font=FONT_13, fill=ORANGE,
                                 anchor='w')
-        self.canvas.create_text(x + 95, y + 180, text=" Tank: " + str(tank_fuel), font=FONT_13,
+        self.canvas.create_text(x + 95, y + 180, text=" Tank: " + str(carrier_fuel), font=FONT_13,
                                 fill=GREEN, anchor='w')
         self.canvas.create_text(x + 190, y + 180, text="| Ship: " + str(ship_fuel), font=FONT_13,
                                 fill=BLUE, anchor='w')
@@ -464,17 +464,17 @@ class UserInterface:
                                 font=FONT_08, fill=ORANGE)
         self.canvas.create_text(x + 400, y + 180, text=" | Min: " + str(req_fuel), font=FONT_13, fill=RED,
                                 anchor='w')
-        fuel_total = tank_fuel + ship_fuel
+        fuel_total = carrier_fuel + ship_fuel
         width = max(fuel_total + carrier_cargo, req_fuel) / 480
         self.canvas.create_rectangle(x + 20, y + 210, x + 20 + req_fuel / width, y + 230, fill=RED, outline=RED,
                                      stipple='gray25')
-        self.canvas.create_rectangle(x + 20, y + 210, x + 20 + tank_fuel / width, y + 230, fill=GREEN,
+        self.canvas.create_rectangle(x + 20, y + 210, x + 20 + carrier_fuel / width, y + 230, fill=GREEN,
                                      outline=GREEN)
-        self.canvas.create_rectangle(x + 20 + tank_fuel / width, y + 210,
-                                     x + 20 + ship_fuel / width + tank_fuel / width, y + 230, fill=BLUE,
+        self.canvas.create_rectangle(x + 20 + carrier_fuel / width, y + 210,
+                                     x + 20 + ship_fuel / width + carrier_fuel / width, y + 230, fill=BLUE,
                                      outline=BLUE)
-        self.canvas.create_rectangle(x + 20 + ship_fuel / width + tank_fuel / width, y + 210,
-                                     x + 20 + ship_fuel / width + tank_fuel / width + carrier_cargo / width,
+        self.canvas.create_rectangle(x + 20 + ship_fuel / width + carrier_fuel / width, y + 210,
+                                     x + 20 + ship_fuel / width + carrier_fuel / width + carrier_cargo / width,
                                      y + 230,
                                      fill=ORANGE, outline=ORANGE)
         self.canvas.create_rectangle(x + 20 + req_fuel / width - 2, y + 210, x + 20 + req_fuel / width, y + 230,

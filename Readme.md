@@ -35,4 +35,4 @@ The next system should automatically get copied to your clipboard each time you 
 * Activate the `venv`: `venv\Scripts\activate`
 * `pip install -r requirements-dev.txt`
 * run tests with `pytest --mypy`
-* use `pylint`
+* use `pylint` to check your coding style

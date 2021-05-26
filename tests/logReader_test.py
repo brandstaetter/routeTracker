@@ -1,4 +1,4 @@
-from routeTracker.logReader import logReader
+from logReader import logReader
 
 
 def test_resetValues():
